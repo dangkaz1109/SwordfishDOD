@@ -1,0 +1,11 @@
+[package]
+name = "swordfish"
+version = "0.1.0"
+edition = "2024"
+description = "High Performance Data Oriented Design Library for Large-Scale Simulation"
+repository = "https://github.com/dangkaz1109/SwordfishDOD"
+license = "Apache-2.0"
+readme = "README.md"
+
+[dependencies]
+rayon = "1.10"
