@@ -97,8 +97,10 @@ macro_rules! query {
     ($table_variable:ident, $($name:ident : $field_name:ident),*, $code_block:block) => {
         for i in 0..$table_variable.tail {
             $( let mut $name = unsafe { $table_variable.$field_name.get(i) }; )*
-            let current = i;
-            unsafe { $code_block }
+            unsafe { 
+                let current = i;
+                $code_block 
+            }
         }
     };
 }
@@ -111,8 +113,8 @@ macro_rules! query_parallel {
     ($table_variable:ident, $($name:ident : $field_name:ident),*, $code_block:block) => {
         (0..$table_variable.tail).into_par_iter().for_each(|i| {
             $( let mut $name = unsafe {$table_variable.$field_name.get(i)}; )*
-            let current = i;
             unsafe {
+                let current = i;
                 $code_block
             }
         });
