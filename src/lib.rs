@@ -9,10 +9,10 @@ macro_rules! create_table {
             pub tail: usize,
             pub stail: usize,
             pub next_id: usize,
-            pub id: $crate::swordfish::Pool<usize>,
-            pub to_delete: $crate::swordfish::Pool<bool>,
+            pub id: $crate::pool::Pool<usize>,
+            pub to_delete: $crate::pool::Pool<bool>,
             $(
-                pub $field_name: $crate::swordfish::Pool<$field_type>,
+                pub $field_name: $crate::pool::Pool<$field_type>,
             )*
         }
 
@@ -22,10 +22,10 @@ macro_rules! create_table {
                     tail: 0,
                     stail: 0,
                     next_id: 0,
-                    id: $crate::swordfish::Pool::new(10_000_000),
-                    to_delete: $crate::swordfish::Pool::new(10_000_000),
+                    id: $crate::pool::Pool::new(10_000_000),
+                    to_delete: $crate::pool::Pool::new(10_000_000),
                     $(
-                        $field_name: $crate::swordfish::Pool::new(10_000_000),
+                        $field_name: $crate::pool::Pool::new(10_000_000),
                     )*
                 }
             }
@@ -89,6 +89,8 @@ macro_rules! get_by_id {
     };
 }
 
+
+
 /// Sequential query macro
 #[macro_export]
 macro_rules! query {
@@ -110,7 +112,9 @@ macro_rules! query_parallel {
         (0..$table_variable.tail).into_par_iter().for_each(|i| {
             $( let mut $name = unsafe {$table_variable.$field_name.get(i)}; )*
             let current = i;
-            unsafe { $code_block }
+            unsafe {
+                $code_block
+            }
         });
     };
 }
