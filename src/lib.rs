@@ -91,20 +91,23 @@ macro_rules! get_by_id {
 
 
 
-/// Sequential query macro
 #[macro_export]
 macro_rules! query {
-    ($table_variable:ident, $($name:ident : $field_name:ident),*, $code_block:block) => {
-        for i in 0..$table_variable.tail {
-            unsafe { 
-                let mut current = i;
-                $( let mut $name = unsafe { $table_variable.$field_name.get(i) }; )*
-                $code_block 
+    // Dùng `; $($body:stmt)*` để match bất kỳ số lượng statements sau dấu `;`
+    ($table:ident, $( $name:ident : $field_name:ident ),* $(,)?; $($body:stmt)*) => {
+        for i in 0..$table.tail {
+            unsafe {
+                let current = i;
+                $(
+                    let mut $name = $table.$field_name.get(i);
+                )*
+                $(
+                    $body
+                )*
             }
         }
     };
 }
-
 
 
 /// Parallel query macro using rayon
