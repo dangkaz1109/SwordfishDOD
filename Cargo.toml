@@ -1,6 +1,6 @@
 [package]
 name = "swordfish"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2024"
 description = "High Performance Data Oriented Design Library for Large-Scale Simulation"
 repository = "https://github.com/dangkaz1109/SwordfishDOD"
