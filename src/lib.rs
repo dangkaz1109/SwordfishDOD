@@ -93,30 +93,26 @@ macro_rules! get_by_id {
 
 #[macro_export]
 macro_rules! query {
-    // Dùng `; $($body:stmt)*` để match bất kỳ số lượng statements sau dấu `;`
-    ($table:ident, $( $name:ident : $field_name:ident ),* $(,)?; $($body:stmt)*) => {
-        for i in 0..$table.tail {
+    ($table:ident, $( $name:ident : $field_name:ident ),* $(,)? $($body:tt)*) => {
+        for current in 0..$table.tail {
             unsafe {
-                let current = i;
                 $(
-                    let mut $name = $table.$field_name.get(i);
+                    let mut $name = $table.$field_name.get(current);
                 )*
-                $(
-                    $body
-                )*
+                $($body)*
             }
         }
     };
 }
 
 
+
 /// Parallel query macro using rayon
 #[macro_export]
 macro_rules! query_parallel {
     ($table_variable:ident, $($name:ident : $field_name:ident),*, $code_block:block) => {
-        (0..$table_variable.tail).into_par_iter().for_each(|i| {
-            pub let current = i;
-            $( let mut $name = unsafe {$table_variable.$field_name.get(i)}; )*
+        (0..$table_variable.tail).into_par_iter().for_each(|current| {
+            $( let mut $name = unsafe {$table_variable.$field_name.get(current)}; )*
             unsafe {
                 $code_block
             }
