@@ -96,9 +96,9 @@ macro_rules! get_by_id {
 macro_rules! query {
     ($table_variable:ident, $($name:ident : $field_name:ident),*, $code_block:block) => {
         for i in 0..$table_variable.tail {
-            let mut current = i;
-            $( let mut $name = unsafe { $table_variable.$field_name.get(i) }; )*
             unsafe { 
+                let mut current = i;
+                $( let mut $name = unsafe { $table_variable.$field_name.get(i) }; )*
                 $code_block 
             }
         }
