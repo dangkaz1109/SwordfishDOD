@@ -105,3 +105,16 @@ macro_rules! query {
         }
     };
 }
+
+#[macro_export]
+macro_rules! query_mut {
+    ($table:ident, $id_name:ident, $( $name:ident : $field_name:ident ),*, $code_block:block) => {
+        for current in 0..$table.id.len() {
+            let $id_name = $table.id[current];
+            $(
+                let $name = &mut $table.$field_name[current];
+            )*
+            $code_block
+        }
+    };
+}
