@@ -2,6 +2,7 @@ use std::alloc::{alloc, dealloc, Layout};
 use std::mem::size_of;
 use std::ptr::null_mut;
 
+#[derive(Debug, Clone)]
 pub struct Pool<T> {
     pub block_number: usize,
     pub init_pointer: *mut T,
