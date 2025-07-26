@@ -103,6 +103,7 @@ macro_rules! query {
             )*
             $code_block
         }
+        $table.commit_delete()
     };
 }
 
@@ -116,5 +117,6 @@ macro_rules! query_mut {
             )*
             $code_block
         }
+        $table.commit_delete()
     };
 }

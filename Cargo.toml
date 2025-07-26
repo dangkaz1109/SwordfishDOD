@@ -1,14 +1,14 @@
 [package]
 name = "swordfish"
-version = "0.1.8"
+version = "0.1.9"
 edition = "2024"
-description = "High Performance Data Oriented Design Library for Large-Scale Simulation"
+description = "Swordfish is a Data-Oriented Design (DOD) Logic Layer for large scale social based simulations / games. It's designed for fast query / discrete graphs processing performance and the ease of use."
 repository = "https://github.com/dangkaz1109/SwordfishDOD"
 license = "Apache-2.0"
 readme = "README.md"
 
 [dependencies]
-paste = "1.0"
+
 
 [lib]
 name = "swordfish"
